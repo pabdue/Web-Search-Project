@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Civil Search</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+  </head>
+  <body class="has-background-light" style="height: 200vh;">
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand pr-3">
+          <a class="navbar-item logo" href="http://127.0.0.1:8000/demo/search/">
+            CPP Civil Enginnering
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="http://127.0.0.1:8000/demo/about/">
+              About
+            </a>
+          </div>
+        </div>
+    </nav>
+    <section class="section" style="padding-bottom: 300px;">
+        <div class="container is-max-desktop">
+            <h1 class="title is-1 py-5 has-text-centered">
+                <strong>Search CPP Civil Engineering</strong>
+            </h1>
+            <form action="{% url 'demo_app:search_civil_research' %}" method="get" id="search-form">
+              <input class="input is-rounded is-hovered" type="text" placeholder="Enter query" name="query" value="{{ query }}">
+              <div class="has-text-centered pt-3">
+                  <button class="button is-success is-rounded" type="submit">Search</button>
+              </div>
+          </form>
+          <div id="results-container" class="pt-6">
+            {% if results %}
+                <h2>Results for '{{ query }}'</h2>
+                <ul>
+                    {% for result in results %}
+                        <li>
+                            <strong>{{ result.name }}</strong><br>
+                            Title/Dept: {{ result.title_dept }}<br>
+                            Email: {{ result.email }}<br>
+                            Phone: {{ result.phone }}<br>
+                            Research Interest: {{ result.research_interests }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No results found for '{{ query }}'</p>
+            {% endif %}
+        </div>
+        </div>
+    </section>
+  </body>
+</html>
