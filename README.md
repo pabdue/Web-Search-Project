@@ -8,11 +8,11 @@ Final Project for CS 4250, Web Search &amp; Recommender Systems. Web scraping, p
 - pymongo
 
 ## Team
-1. Jonathan Peña, <strong>Lead Web Engineer</strong>
-2. Jessica Ortega, <strong>Web Engineer</strong>
-3. Pablo Dueñas, <strong>Web Engineer</strong>
-4. Sunjay Guttikonda, <strong>Web Engineer</strong>
-5. Loc Nguyen, <strong>Web Engineer</strong>
+1. Jonathan Peña
+2. Jessica Ortega
+3. Pablo Dueñas
+4. Sunjay Guttikonda
+5. Loc Nguyen
 
 ## Run Project
 Steps:
@@ -22,7 +22,7 @@ Steps:
 4. Server URL: http://127.0.0.1:8000/search/
 5. Query terms like: building, steel, deep learning, ...
 
-## pip list
+## Pip list
 | Package      | Version       |
 |--------------|---------------|
 | asgiref      | 3.7.2         |
