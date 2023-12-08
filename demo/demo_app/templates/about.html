@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'style.css' %}">
   </head>
-  <body class="has-background-light" style="height: 200vh;">
+  <body class="has-background-light" style="height: 150vh;">
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand pr-3">
           <a class="navbar-item logo" href="http://127.0.0.1:8000/demo/search/">
@@ -33,33 +33,29 @@
     </nav>
     <section class="section" style="padding-bottom: 300px;">
         <div class="container is-max-desktop">
-            <h1 class="title is-1 py-5 has-text-centered">
-                <strong>Search CPP Civil Engineering</strong>
+            <h1 class="title thank-you py-5 has-text-centered">
+                <strong>Thank You!</strong>
             </h1>
-            <form action="{% url 'demo_app:search_civil_research' %}" method="get" id="search-form">
-              <input class="input is-rounded is-hovered" type="text" placeholder="Enter query" name="query" value="{{ query }}">
-              <div class="has-text-centered pt-3">
-                  <button class="button is-success is-rounded" type="submit">Search</button>
-              </div>
-          </form>
-          <div id="results-container" class="pt-6">
-            {% if results %}
-                <h2>Results for '{{ query }}'</h2>
-                <ul>
-                    {% for result in results %}
-                        <li>
-                            <strong>{{ result.name }}</strong><br>
-                            Title/Dept: {{ result.title_dept }}<br>
-                            Email: {{ result.email }}<br>
-                            Phone: {{ result.phone }}<br>
-                            Research Interest: {{ result.research_interests }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No results found for '{{ query }}'</p>
-            {% endif %}
-        </div>
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <div class="notification is-dark">
+                        <p style="font-size: 40px; font-weight: bold;">Team members</p>
+                        <div class="pl-6 pb-5">
+                            <p class="team-name">Jonathan Peña</p>
+                            <p class="team-name">Pablo Dueñas</p>
+                            <p class="team-name">Jessica Ortega</p>
+                            <p class="team-name">Loc Nguyen</p>
+                            <p class="team-name">Sunjay Guttikonda</p>
+                        </div>
+                        <a class="button" href="https://github.com/pabdue/Web-Search-Project/tree/main" target="_blank">
+                            <span class="icon is-medium">
+                              <i class="fab fa-github"></i>
+                            </span>
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
   </body>
