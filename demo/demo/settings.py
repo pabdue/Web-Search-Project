@@ -74,23 +74,13 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}'''
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'civilCrawler',  # Use the correct name of your MongoDB database
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': 'mongodb://localhost:27017',
-        }
-    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
