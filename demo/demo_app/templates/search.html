@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'style.css' %}">
   </head>
-  <body class="has-background-light" style="height: 100%;">
+  <body class="has-background-light" style="height: 100%; min-height: 100vh;">
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand pr-3">
           <a class="navbar-item logo" href="http://127.0.0.1:8000/demo/search/">
@@ -44,46 +44,48 @@
           </form>
           <div id="results-container" class="pt-6">
             {% if query %}
-                <p>Results for '{{ query }}'</p>
+                <p class="title is-4">Results for '{{ query }}'</p>
             {% else %}
-                <h2>All Professors</h2>
+                <h2> </h2>
             {% endif %}
             <div class="columns is-multiline pt-5 is-vcentered px-6">
-              {% for professor in professors %}
-              <div class="column is-full">
-                  <div class="card rounded-edges">
-                      <div class="card-content">
-                        <p class="name mb-1"><strong>{{ professor.name }}</strong><br></p>
-                        <div class="message is-success">
-                          <div class="message-body py-2">
-                            <div>
-                                <div style="font-size: 15px;">
-                                  <strong>Title/Dept: </strong>{{ professor.title_dept }}<br>
-                                  <strong>Email: </strong><a href="mailto:{{ professor.email }}">{{ professor.email }}</a><br>
-                                  <strong>Phone: </strong>{{ professor.phone }}<br>
-                                  
-                                </div>
+              {% if professors %}
+                {% for professor in professors %}
+                <div class="column is-full">
+                    <div class="card rounded-edges">
+                        <div class="card-content">
+                          <p class="name mb-1"><strong>{{ professor.name }}</strong><br></p>
+                          <div class="message is-success">
+                            <div class="message-body py-2">
+                              <div>
+                                  <div style="font-size: 15px;">
+                                    <strong>Title/Dept: </strong>{{ professor.title_dept }}<br>
+                                    <strong>Email: </strong><a href="mailto:{{ professor.email }}">{{ professor.email }}</a><br>
+                                    <strong>Phone: </strong>{{ professor.phone }}<br>
+                                    
+                                  </div>
+                              </div>
                             </div>
                           </div>
+                          <strong>Cosine Similarity Scrore: </strong>{{ professor.score }}<br>
                         </div>
-                        <strong>Cosine Similarity Scrore: </strong>{{ professor.score }}<br>
-                      </div>
-                      <footer class="card-footer">
-                          <div class="py-3 px-3">
-                              <p class="pl-3"><b>Visit page:</b>
-                                  <a class="pl-2" href="{{ professor.url }}" target="_blank">
-                                      <i class="fas fa-external-link-alt"></i>
-                                  </a>
-                              </p>
-                          </div>
-                      </footer>
-                  </div>
-              </div>
-              {% endfor %}
+                        <footer class="card-footer">
+                            <div class="py-3 px-3">
+                                <p class="pl-3"><b>Visit page:</b>
+                                    <a class="pl-2" href="{{ professor.url }}" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </p>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+                {% endfor %}
+              {% else %}
+                <p class="has-text-danger">No results found</p>
+              {% endif %}
             </div>
-            
           </div>
-        
         </div>
     </section>
   </body>
