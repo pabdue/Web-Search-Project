@@ -1,11 +1,17 @@
 from pymongo import MongoClient
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import nltk
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
 
 # Connect to MongoDB
 client = MongoClient('mongodb://localhost:27017')
 db = client['civilCrawler']
 collection = db['civilResearch']
 
-def search_professors(query):
+def search_professors_test(query):
     # Use a simple text search on the 'research_interests' field
     query_regex = {"name": {"$regex": f".*{query}.*", "$options": "i"}}
     matching_professors = list(collection.find(query_regex))
@@ -14,40 +20,75 @@ def search_professors(query):
 
     return matching_professors
 
-'''
-# Extract text data for vectorization
-corpus = []
+def preprocess_text(text):
+    tokens = word_tokenize(text)
+    tokens = [word.lower() for word in tokens if word.isalpha()]
+    stop_words = set(stopwords.words('english'))
+    filtered_tokens = [word for word in tokens if word not in stop_words]
+    stemmer = PorterStemmer()
+    stemmed_tokens = [stemmer.stem(word) for word in filtered_tokens]
+    return ' '.join(stemmed_tokens)  # Return as a single string
 
-for professor in professors:
-    research_interests = professor.get('research_interests', [])
-    if research_interests:
-        research_interest = research_interests[0].get('Research Interest', '')
-        corpus.append(research_interest)
-    else:
-        corpus.append('')  # Add an empty string if 'research_interests' key is not present
+def search_professors(query):
+    # Retrieve all documents from the collection
+    all_documents = list(collection.find())
 
+    # Prepare documents
+    documents = []
+    professors = []
 
-# Vectorize the text data
-vectorizer = TfidfVectorizer(norm='l2')
-X = vectorizer.fit_transform(corpus)
+    for doc in all_documents:
+        name = doc.get('name', 'Unknown')
+        url = doc.get('url', 'No URL provided')
+        title_dept = doc.get('title_dept', 'No title_dept provided')
+        email = doc.get('email', 'No email provided')
+        phone = doc.get('phone', 'No phone provided')
+        professors.append((name, url, title_dept, email, phone))
 
-def search_professors(query, page=1):
-    # Vectorize the user's query
-    query_vector = vectorizer.transform([query])
+        combined_text = ""
 
-    # Calculate cosine similarity
-    cosine_similarities = linear_kernel(query_vector, X).flatten()
+        # Iterate over all fields in the document
+        for key, value in doc.items():
+            if key not in ['_id', 'url', 'email', 'phone', 'office_location']:  # Exclude non-textual fields
+                if isinstance(value, list):  # Handle list fields
+                    for item in value:
+                        if isinstance(item, dict):
+                            # Concatenate all string values in the dictionary
+                            combined_text += " ".join([str(v) for v in item.values() if isinstance(v, str)])
+                        elif isinstance(item, str):
+                            combined_text += " " + item
+                elif isinstance(value, str):  # Handle string fields
+                    combined_text += " " + value
 
-    # Sort professors by similarity in descending order
-    professor_indices = cosine_similarities.argsort()[::-1]
+        processed_text = preprocess_text(combined_text)
+        documents.append(processed_text)
 
-    # Paginate the results
-    paginator = Paginator(professor_indices, 5)
-    professors_page = paginator.get_page(page)
+    # Create a TfidfVectorizer instance
+    vectorizer = TfidfVectorizer()
 
-    # Get the relevant professors
-    relevant_professors = [professors[i] for i in professors_page]
+    # Generate the TF-IDF matrix
+    tfidf_matrix = vectorizer.fit_transform(documents)
 
-    return relevant_professors
+    # Convert the TF-IDF matrix to a dense format
+    dense_tfidf_matrix = tfidf_matrix.todense()
 
-'''
+    # Add the processed query and transform it
+    processed_query = preprocess_text(query)
+    query_vector = vectorizer.transform([processed_query])
+
+    # Compute cosine similarity
+    cosine_similarities = cosine_similarity(query_vector, tfidf_matrix).flatten()
+
+    # Rank the documents
+    document_ranking = sorted(enumerate(cosine_similarities), key=lambda x: x[1], reverse=True)
+    print(document_ranking)
+
+    ranked_professors = []
+
+    for rank, (doc_idx, score) in enumerate(document_ranking):
+        name, url, title_dept, email, phone = professors[doc_idx]
+        ranked_professors.append({'name':name, 'url':url, 'title_dept':title_dept, 'email':email, 'phone':phone, 'score':score})
+
+    print(ranked_professors)
+
+    return ranked_professors
