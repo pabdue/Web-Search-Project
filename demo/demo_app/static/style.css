@@ -10,3 +10,12 @@
 .team-name {
     font-size: 25px;
 }
+
+.rounded-edges {
+    border-radius: 10px;
+}
+
+.name {
+    font-size: 25px;
+    font-weight: bold;
+}

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import CivilResearch
+from .search_db import search_professors
 
 # Create your views here.
 def search_view(request):
@@ -11,10 +11,6 @@ def about_view(request):
 def search_civil_research(request):
     query = request.GET.get('query', '')
 
-    if query:
-        # Use the correct field name from your model for filtering
-        results = CivilResearch.objects.filter(research_interests__icontains=query)
-    else:
-        results = []
+    professors = search_professors(query)
 
-    return render(request, 'search.html', {'results': results, 'query': query})
+    return render(request, 'search.html', {'professors': professors, 'query': query})
