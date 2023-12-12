@@ -86,6 +86,8 @@ def search_professors(query):
     ranked_professors = []
 
     for rank, (doc_idx, score) in enumerate(document_ranking):
+        if score == 0.0:
+            continue
         name, url, title_dept, email, phone = professors[doc_idx]
         ranked_professors.append({'name':name, 'url':url, 'title_dept':title_dept, 'email':email, 'phone':phone, 'score':score})
 
