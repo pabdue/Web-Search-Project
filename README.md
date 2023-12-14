@@ -7,6 +7,8 @@ Final Project for CS 4250, Web Search &amp; Recommender Systems. Web scraping, p
 - BeautifulSoup
 - pymongo
 - Django
+- urllib
+- nltk
 
 ## Team
 1. Jonathan Peña
