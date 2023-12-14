@@ -66,7 +66,7 @@ dense_tfidf_matrix = tfidf_matrix.todense()
 feature_names = vectorizer.get_feature_names_out()
 
 # Add a query and transform it
-query = "Steel Production"
+query = "Eartquake and Seismic"
 processed_query = preprocess_text(query)
 query_vector = vectorizer.transform([processed_query])
 
