@@ -63,10 +63,10 @@ tfidf_matrix = vectorizer.fit_transform(documents)
 dense_tfidf_matrix = tfidf_matrix.todense()
 
 # Get feature names to match indices
-feature_names = vectorizer.get_feature_names()
+feature_names = vectorizer.get_feature_names_out()
 
 # Add a query and transform it
-query = "Understanding Public Sentiment toward I-710 Corridor Project from Social Media Based on Natural Language Processing"
+query = "Steel Production"
 processed_query = preprocess_text(query)
 query_vector = vectorizer.transform([processed_query])
 
