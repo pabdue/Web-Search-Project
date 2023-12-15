@@ -21,3 +21,6 @@ Steps:
 3. python3 manage.py runserver
 4. Server URL: http://127.0.0.1:8000/demo/search/
 5. Query terms like: building, steel, deep learning, ...
+
+## Video Demo Link:
+https://youtu.be/TQEqxR53hNM 
